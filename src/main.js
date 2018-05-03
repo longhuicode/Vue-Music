@@ -1,3 +1,4 @@
+import 'babel-polyfill' // 导入填充库,提升兼容性
 import Vue from 'vue'
 import App from './App'
 // import router from './router'
