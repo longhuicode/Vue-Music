@@ -26,6 +26,10 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 不检测末尾是否有空行
-    'eol-last': 0
+    'eol-last': 0,
+    // 不检测函数名末尾是否有空格
+    'space-before-function-paren': 0,
+    // allow paren-less arrow functions
+    'arrow-parens': 0
   }
 }
