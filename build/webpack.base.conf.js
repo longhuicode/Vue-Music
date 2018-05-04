@@ -37,7 +37,8 @@ module.exports = {
       '@': resolve('src'),
       'common': resolve('src/common'),
       'components': resolve('src/components'), // 添加 components 目录别名,这样就可以直接在组件中导入
-      'api': resolve('src/api')
+      'api': resolve('src/api'),
+      'base': resolve('src/base')
     }
   },
   module: {
