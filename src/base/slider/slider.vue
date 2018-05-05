@@ -4,6 +4,9 @@
       <slot>
       </slot>
     </div>
+    <div class="dots">
+      <span class="dot" v-for="(item, index) in dots" :class="{active: currentPageIndex === index}"></span>
+    </div>
   </div>
 </template>
 
@@ -13,6 +16,12 @@ import {addClass} from 'common/js/dom'
 
 export default {
   name: 'slider',
+  data() {
+    return {
+      dots: [],
+      currentPageIndex: 0
+    }
+  },
   props: {
     loop: {
       type: Boolean,
@@ -38,8 +47,31 @@ export default {
   mounted() {
     setTimeout(() => {
       this._setSliderWidth()
+      this._initDots()
       this._initSlider()
+      if (this.autoPlay) {
+        this._play()
+      }
     }, 20)
+
+    window.addEventListener('resize', () => {
+      if (!this.slider) {
+        return
+      }
+      this._setSliderWidth(true)
+      this.slider.refresh()
+    })
+  },
+  activated() {
+    if (this.autoPlay) {
+      this._play()
+    }
+  },
+  deactivated() {
+    clearTimeout(this.timer)
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer)
   },
   methods: {
     _setSliderWidth(isResize) {
@@ -59,6 +91,9 @@ export default {
       }
       this.$refs.sliderGroup.style.width = width + 'px'
     },
+    _initDots() {
+      this.dots = new Array(this.children.length)
+    },
     _initSlider() {
       this.slider = new BScroll(this.$refs.slider, {
         scrollX: true,
@@ -68,8 +103,24 @@ export default {
           loop: this.loop,
           threshold: this.threshold,
           speed: this.speed
-        }
+        },
+        click: true
       })
+      this.slider.on('scrollEnd', this._onScrollEnd)
+    },
+    _onScrollEnd() {
+      let pageIndex = this.slider.getCurrentPage().pageX
+      this.currentPageIndex = pageIndex
+      if (this.autoPlay) {
+        clearTimeout(this.timer)
+        this._play()
+      }
+    },
+    _play() {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.slider.next()
+      }, this.interval)
     }
   }
 }
