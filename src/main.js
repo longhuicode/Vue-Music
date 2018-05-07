@@ -2,6 +2,7 @@ import 'babel-polyfill' // 导入填充库,提升兼容性
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import fastclick from 'fastclick' // 引入 fastclick 解决移动端浏览器 300 毫秒延迟问题
 import axios from 'axios'
 import VueLazyLoad from 'vue-lazyload'
@@ -23,5 +24,6 @@ Vue.use(VueLazyLoad, {
 new Vue({
   el: '#app',
   router: router,
+  store: store,
   render: h => h(App)
 })
