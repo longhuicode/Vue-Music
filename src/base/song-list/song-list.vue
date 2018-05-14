@@ -13,7 +13,7 @@
 
 <script type="text/ecmascript-6">
 export default {
-  name: 'song-list.vue',
+  name: 'song-list',
   props: {
     songs: {
       type: Array,
