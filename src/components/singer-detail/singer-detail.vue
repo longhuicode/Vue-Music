@@ -5,11 +5,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import {getSingerDetail} from 'api/singer'
 import {ERR_OK} from 'api/config'
 import {createSong} from 'common/js/song'
 import MusicList from 'components/music-list/music-list'
+import Singer from 'common/js/singer'
 
 export default {
   name: 'singer-detail',
@@ -43,6 +44,9 @@ export default {
       getSingerDetail(singerId).then((res) => {
         if (res.code === ERR_OK) {
           this.songs = this._normalizeSongs(res.data.list)
+          if (!this.singer.id) {
+            this.setSinger(new Singer(res.data.singer_mid, res.data.singer_name))
+          }
         }
       })
     },
@@ -55,7 +59,10 @@ export default {
         }
       })
       return ret
-    }
+    },
+    ...mapMutations({
+      setSinger: 'SET_SINGER'
+    })
   },
   components: {
     MusicList
