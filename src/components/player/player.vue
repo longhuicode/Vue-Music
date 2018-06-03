@@ -35,7 +35,7 @@
             class="middle-r"
             ref="lyricList"
             :data="currentLyric && currentLyric.lines">
-            <div class="lyric-wrapper">
+            <div class="lyric-wrapper" ref="lyricWrapper">
               <div v-if="currentLyric">
                 <p ref="lyricLine"
                    class="text"
@@ -239,6 +239,7 @@ export default {
       if (!this.songReady) {
         return
       }
+      this.$refs.lyricWrapper.style[transform] = `translate3d(0,0,0)`
       if (this.playlist.length === 1) {
         this.loop()
       } else {
@@ -257,6 +258,7 @@ export default {
       if (!this.songReady) {
         return
       }
+      this.$refs.lyricWrapper.style[transform] = `translate3d(0,0,0)`
       if (this.playlist.length === 1) {
         this.loop()
       } else {
