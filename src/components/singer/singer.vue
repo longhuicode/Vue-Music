@@ -1,4 +1,3 @@
-import {singer} from "../../store/getters";
 <template>
   <div class="singer" ref="singer">
     <listview :data="singers" @select="selectSinger" ref="list"></listview>
