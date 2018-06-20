@@ -1,10 +1,13 @@
 <template>
   <div class="song-list">
     <ul>
-      <li @click="selectItem(song, index)" v-for="(song, index) in songs" :key="song.id" class="item">
+      <li @click="selectItem(song, index)" class="item" v-for="(song, index) in songs" :key="song.id">
+        <div class="rank" v-show="rank">
+          <span :class="getRankCls(index)" v-text="getRankText(index)"></span>
+        </div>
         <div class="content">
           <h2 class="name">{{song.name}}</h2>
-          <p class="desc">{{ getDesc(song) }}</p>
+          <p class="desc">{{getDesc(song)}}</p>
         </div>
       </li>
     </ul>
@@ -13,13 +16,16 @@
 
 <script type="text/ecmascript-6">
 export default {
-  name: 'song-list',
   props: {
     songs: {
       type: Array,
       default: function () {
         return []
       }
+    },
+    rank: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -27,7 +33,19 @@ export default {
       this.$emit('select', item, index)
     },
     getDesc(song) {
-      return `${song.singer}. ${song.album} `
+      return `${song.singer}·${song.album}`
+    },
+    getRankCls(index) {
+      if (index <= 2) {
+        return `icon icon${index}`
+      } else {
+        return 'text'
+      }
+    },
+    getRankText(index) {
+      if (index > 2) {
+        return index + 1
+      }
     }
   }
 }
